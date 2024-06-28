@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-whatever" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        .header {
+            background: rgba(62, 54, 54, 0.343);
+            height: auto;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .content {
+            background-color: aquamarine;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+        }
+        .col-6 {
+            border: 1px solid;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="col-12">
+            <h1>Gerenciador de Tarefas Domésticas</h1>
+        </div>
+    </div>
+    <div class="content">
+        <div class="col-6">
+            <label for="valorTarefa">Tarefa</label>
+            <input type="text" id="valorTarefa">
+            <button id="criar">Adicionar</button>
+        </div>
+        <div class="col-6" id="conteudoTarefas"></div>
+    </div>
+    <script>
+        var tarefas = [];
+        var criarButton = document.getElementById('criar');
+        var conteudoTarefas = document.getElementById('conteudoTarefas');
+        var valorTarefa = document.getElementById('valorTarefa');
+
+        criarButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (valorTarefa.value.trim() !== '') {
+                tarefas.push(valorTarefa.value.trim());
+                valorTarefa.value = '';
+                renderTarefas();
+            }
+        });
+
+        function renderTarefas() {
+            conteudoTarefas.innerHTML = '';
+            tarefas.forEach((tarefa, index) => {
+                conteudoTarefas.innerHTML += `
+                    <div>
+                        ${tarefa} 
+                        <button onclick="editarTarefa(${index})">Editar</button>
+                        <button onclick="removerTarefa(${index})">Remover</button>
+                    </div>
+                `;
+            });
+        }
+
+        function removerTarefa(index) {
+            tarefas.splice(index, 1);
+            renderTarefas();
+        }
+
+        function editarTarefa(index) {
+            var novaTarefa = prompt("Edite a tarefa:", tarefas[index]);
+            if (novaTarefa !== null && novaTarefa.trim() !== '') {
+                tarefas[index] = novaTarefa.trim();
+                renderTarefas();
+            }
+        }
+    </script>
+</body>
+
+</html>
